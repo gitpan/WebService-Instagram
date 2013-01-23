@@ -11,7 +11,7 @@ use Carp;
 use Data::Dumper;
 use HTTP::Request;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use constant AUTHORIZE_URL 	=> 'https://api.instagram.com/oauth/authorize?';
 use constant ACCESS_TOKEN_URL 	=> 'https://api.instagram.com/oauth/access_token?';
@@ -100,23 +100,22 @@ Version 0.01
 
 Get the AUTH URL to authenticate,
 
-C<
-use Webservice::Instagram;
+	use Webservice::Instagram;
 
-my $instagram = Webservice::Instagram->new(
-	{
-		client_id	=> 'xxxxxxxxxxxxxxx',
-		client_secret	=> 'xxxxxxxxxxxxxxx',
-		redirect_uri	=> 'http://domain.com',
-		grant_type	=> 'authorization_code'
-	}
-);
+	my $instagram = Webservice::Instagram->new(
+		{
+			client_id	=> 'xxxxxxxxxxxxxxx',
+			client_secret	=> 'xxxxxxxxxxxxxxx',
+			redirect_uri	=> 'http://domain.com',
+			grant_type	=> 'authorization_code'
+		}
+	);
 
-my $auth_url = $obj->get_auth_url();
-print Dumper $auth_url;
->
+	my $auth_url = $obj->get_auth_url();
+	print Dumper $auth_url;
 
 =head2 Step 2:
+
 Go to the above calculated URL in the browser, authenticate and fetch the code returned by the browser after authentication.
 The returned URL is usually of the form www.returnuri.com/?code=xxxxxxxxxxx
 
@@ -124,18 +123,15 @@ The returned URL is usually of the form www.returnuri.com/?code=xxxxxxxxxxx
 
 Now using the code, fetch the access_token and set it to the object,
 
-C<
-my $access_token = $obj->get_access_token( $code ); #$code is fetched from Step 2.
-#Set the access_token to $instagram object
-$instagram->set_access_token( $access_token );
->
+	my $access_token = $obj->get_access_token( $code ); #$code is fetched from Step 2.
+	#Set the access_token to $instagram object
+	$instagram->set_access_token( $access_token );
 
-=head2 Step 3:
+=head2 Step 4:
+
 Fetch resource using the object.
 
-C<
-my $search_result = $obj->get( 'https://api.instagram.com/v1/users/search', { q => 'ravi' } };
->
+	my $search_result = $obj->get( 'https://api.instagram.com/v1/users/search', { q => 'jason' } };
 
 =head1 SUBROUTINES/METHODS
 
