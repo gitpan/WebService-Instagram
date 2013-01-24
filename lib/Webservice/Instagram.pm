@@ -11,7 +11,7 @@ use Carp;
 use Data::Dumper;
 use HTTP::Request;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use constant AUTHORIZE_URL 	=> 'https://api.instagram.com/oauth/authorize?';
 use constant ACCESS_TOKEN_URL 	=> 'https://api.instagram.com/oauth/access_token?';
@@ -90,13 +90,13 @@ Webservice::Instagram - Simple Interface to Instagram oAuth API
 
 =head1 VERSION
 
-Version 0.01
+Version 0.03
 
 =cut
 
 =head1 SYNOPSIS
 
-=head2 Step 1:
+=head2 Step 1: Get the authorization URL:
 
 Get the AUTH URL to authenticate,
 
@@ -107,31 +107,33 @@ Get the AUTH URL to authenticate,
 			client_id	=> 'xxxxxxxxxxxxxxx',
 			client_secret	=> 'xxxxxxxxxxxxxxx',
 			redirect_uri	=> 'http://domain.com',
-			grant_type	=> 'authorization_code'
 		}
 	);
 
-	my $auth_url = $obj->get_auth_url();
+	my $auth_url = $instagram->get_auth_url();
 	print Dumper $auth_url;
 
-=head2 Step 2:
+=head2 Step 2: Let the User authorize the API
 
-Go to the above calculated URL in the browser, authenticate and fetch the code returned by the browser after authentication.
+Go to the above calculated URL in the browser, authenticate and save the code returned by the browser after authentication. You will need this to get access_token in Step 3.
+
 The returned URL is usually of the form www.returnuri.com/?code=xxxxxxxxxxx
 
-=head2 Step 3:
+=head2 Step 3: Get and Set Access Token
 
 Now using the code, fetch the access_token and set it to the object,
 
-	my $access_token = $obj->get_access_token( $code ); #$code is fetched from Step 2.
+	my $access_token = $instagram->get_access_token( $code ); #$code is fetched from Step 2.
+
 	#Set the access_token to $instagram object
 	$instagram->set_access_token( $access_token );
 
-=head2 Step 4:
+=head2 Step 4: Fetch API Resources
 
-Fetch resource using the object.
-
-	my $search_result = $obj->get( 'https://api.instagram.com/v1/users/search', { q => 'jason' } };
+Fetch the protected resource.
+	
+	#Get authenticated user's feed
+	my $search_result = $instagram->get( 'https://api.instagram.com/v1/users/self/feed' );
 
 =head1 SUBROUTINES/METHODS
 
@@ -146,7 +148,7 @@ Once you have the C<code>, you are ready to get the access_token.
 
 =cut
 
-=head2 get
+=head2 request
 
 Since you now have the access token, you can request all the resources on behalf of the API. 
 =cut
@@ -155,44 +157,9 @@ Since you now have the access token, you can request all the resources on behalf
 
 Daya Sagar Nune, C<< <dayanune at cpan.org> >>
 
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-webservice-instagram at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Webservice-Instagram>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
 =head1 SUPPORT
 
-You can find documentation for this module with the perldoc command.
-
-    perldoc Webservice::Instagram
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Webservice-Instagram>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Webservice-Instagram>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Webservice-Instagram>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Webservice-Instagram/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
+This module's source and other documentation is hosted at: https://github.com/odem5442/Webservice-Instagram
 
 =head1 LICENSE AND COPYRIGHT
 
