@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Webservice-Instagram",
+   "name" : "WebService-Instagram",
    "no_index" : {
       "directory" : [
          "t",
@@ -32,10 +32,18 @@
       },
       "runtime" : {
          "requires" : {
-            "Test::More" : 0
+            "Carp" : 0,
+            "Data::Dumper" : 0,
+            "HTTP::Request" : 0,
+            "JSON" : 0,
+            "LWP::UserAgent" : 0,
+            "Test::More" : 0,
+            "URI" : 0,
+            "strict" : 0,
+            "warnings" : 0
          }
       }
    },
    "release_status" : "stable",
-   "version" : "0.03"
+   "version" : "0.04"
 }

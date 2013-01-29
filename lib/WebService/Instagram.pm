@@ -1,4 +1,4 @@
-package Webservice::Instagram;
+package WebService::Instagram;
 
 use 5.006;
 use strict;
@@ -11,7 +11,7 @@ use Carp;
 use Data::Dumper;
 use HTTP::Request;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use constant AUTHORIZE_URL 	=> 'https://api.instagram.com/oauth/authorize?';
 use constant ACCESS_TOKEN_URL 	=> 'https://api.instagram.com/oauth/access_token?';
@@ -86,7 +86,7 @@ sub request {
 
 =head1 NAME
 
-Webservice::Instagram - Simple Interface to Instagram oAuth API
+WebService::Instagram - Simple Interface to Instagram oAuth API
 
 =head1 VERSION
 
@@ -100,9 +100,9 @@ Version 0.03
 
 Get the AUTH URL to authenticate,
 
-	use Webservice::Instagram;
+	use WebService::Instagram;
 
-	my $instagram = Webservice::Instagram->new(
+	my $instagram = WebService::Instagram->new(
 		{
 			client_id	=> 'xxxxxxxxxxxxxxx',
 			client_secret	=> 'xxxxxxxxxxxxxxx',
@@ -159,7 +159,7 @@ Daya Sagar Nune, C<< <dayanune at cpan.org> >>
 
 =head1 SUPPORT
 
-This module's source and other documentation is hosted at: https://github.com/odem5442/Webservice-Instagram
+This module's source and other documentation is hosted at: https://github.com/odem5442/WebService-Instagram
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -174,4 +174,4 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-1; # End of Webservice::Instagram
+1; # End of WebService::Instagram

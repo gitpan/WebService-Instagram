@@ -3,7 +3,7 @@
 use Test::More tests => 1;
 
 BEGIN {
-    use_ok( 'Webservice::Instagram' ) || print "Bail out!\n";
+    use_ok( 'WebService::Instagram' ) || print "Bail out!\n";
 }
 
-diag( "Testing Webservice::Instagram $Webservice::Instagram::VERSION, Perl $], $^X" );
+diag( "Testing WebService::Instagram $WebService::Instagram::VERSION, Perl $], $^X" );
