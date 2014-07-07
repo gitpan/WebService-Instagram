@@ -11,7 +11,7 @@ use Carp;
 use Data::Dumper;
 use HTTP::Request;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use constant AUTHORIZE_URL 	=> 'https://api.instagram.com/oauth/authorize?';
 use constant ACCESS_TOKEN_URL 	=> 'https://api.instagram.com/oauth/access_token?';
@@ -34,10 +34,14 @@ sub get_auth_url {
 	foreach ( @auth_fields ) {
 		confess "ERROR: $_ required for generating authorization URL." if (!defined $_);
 	}
-	my $auth_base_url = "https://api.instagram.com/oauth/authorize/?";
 	#print Dumper $self->{client_id};
-	my $return_url = AUTHORIZE_URL . join("&", ( map { $_ . "=" . $self->{$_} } @auth_fields) );
-	return $return_url;
+
+	my $uri = URI->new( AUTHORIZE_URL );
+	$uri->query_form(
+		map { $_ => $self->{$_} } @auth_fields,
+	);
+
+	return $uri->as_string();
 }
 
 sub set_code {
@@ -83,6 +87,8 @@ sub request {
 	return decode_json $ret;
 }
 
+1; # End of WebService::Instagram
+__END__
 
 =head1 NAME
 
@@ -90,9 +96,7 @@ WebService::Instagram - Simple Interface to Instagram oAuth API
 
 =head1 VERSION
 
-Version 0.03
-
-=cut
+Version 0.05
 
 =head1 SYNOPSIS
 
@@ -123,7 +127,8 @@ The returned URL is usually of the form www.returnuri.com/?code=xxxxxxxxxxx
 
 Now using the code, fetch the access_token and set it to the object,
 
-	my $access_token = $instagram->get_access_token( $code ); #$code is fetched from Step 2.
+ 	$instagram->set_code( $code ); #$code is fetched from Step 2.
+	my $access_token = $instagram->get_access_token();
 
 	#Set the access_token to $instagram object
 	$instagram->set_access_token( $access_token );
@@ -133,7 +138,7 @@ Now using the code, fetch the access_token and set it to the object,
 Fetch the protected resource.
 	
 	#Get authenticated user's feed
-	my $search_result = $instagram->get( 'https://api.instagram.com/v1/users/self/feed' );
+	my $search_result = $instagram->request( 'https://api.instagram.com/v1/users/self/feed' );
 
 =head1 SUBROUTINES/METHODS
 
@@ -159,7 +164,7 @@ Daya Sagar Nune, C<< <dayanune at cpan.org> >>
 
 =head1 SUPPORT
 
-This module's source and other documentation is hosted at: https://github.com/odem5442/WebService-Instagram
+This module's source and other documentation is hosted at: L<https://github.com/odem5442/WebService-Instagram>
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -169,9 +174,6 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
-See http://dev.perl.org/licenses/ for more information.
-
+See L<http://dev.perl.org/licenses/> for more information.
 
 =cut
-
-1; # End of WebService::Instagram
